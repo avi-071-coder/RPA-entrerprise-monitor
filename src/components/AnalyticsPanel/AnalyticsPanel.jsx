@@ -304,8 +304,6 @@ export default function AnalyticsPanel() {
       {/* massive CTA when charts are hidden */}
       {!showCharts && (
         <div className="analytics-empty-cta">
-          <div className="cta-icon-pulse">📊</div>
-          <h4>Live Analytics Engine</h4>
           {!isPaused ? (
             <p style={{ color: 'var(--accent-red)', fontWeight: 'bold' }}>
               ⚠️ The stream is currently LIVE. Pause to generate your chart.
@@ -314,7 +312,7 @@ export default function AnalyticsPanel() {
             <>
               <p>Stream is paused. Safe to generate charts.</p>
               <button className="massive-safe-check-btn" onClick={toggleCharts}>
-                Generate Analytics View
+                <span style={{ marginRight: '8px' }}>📊</span> Generate Analytics View
               </button>
             </>
           )}
