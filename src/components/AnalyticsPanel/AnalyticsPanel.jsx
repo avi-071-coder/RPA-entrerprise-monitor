@@ -1,12 +1,10 @@
-/**
- * AnalyticsPanel.jsx — Chart.js data visualization overlay.
- * When the pipeline is paused, an "Analytics View" toggle reveals this panel
- * with aggregated charts built from the frozen dataMap snapshot.
- * When live (not paused), shows the existing summary stats.
- */
+// analyticsPanel.jsx — Chart.js data visualization overlay.
+// when the pipeline is paused, an "Analytics View" toggle reveals this panel
+// with aggregated charts built from the frozen dataMap snapshot.
+// when live (not paused), shows the existing summary stats.
 
 import React, { useMemo, useRef, useEffect, useState, useCallback } from 'react';
-import { useStreamState } from '../../store/streamStore.jsx';
+import { useStreamState, useStreamDispatch } from '../../store/streamStore.jsx';
 import { formatCurrency, formatInteger, formatPercent } from '../../utils/formatters.js';
 import {
   Chart as ChartJS,
@@ -19,10 +17,10 @@ import {
 } from 'chart.js';
 import { Bar, Doughnut } from 'react-chartjs-2';
 
-// Register Chart.js components once
+// gotta register these for chartjs to work
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
-// Shared Chart.js defaults for dark theme
+// base font/color settings for the charts
 const CHART_FONT = { family: "'Inter', system-ui, sans-serif", size: 11 };
 const GRID_COLOR = 'rgba(51, 65, 85, 0.4)';
 const TICK_COLOR = '#64748b';
@@ -39,9 +37,7 @@ const INDUSTRY_COLORS = [
   '#a78bfa', '#fb923c', '#e879f9', '#34d399', '#f472b6',
 ];
 
-/**
- * Aggregate data from the frozen dataMap for chart rendering.
- */
+// aggregate data from the frozen dataMap for chart rendering.
 function aggregateData(dataMap) {
   const statusCounts = {};
   const industryMap = {};
@@ -53,74 +49,67 @@ function aggregateData(dataMap) {
 
   for (const row of dataMap.values()) {
     count++;
-    // Status distribution
+    // group by status
     const status = row.project_status || 'Unknown';
     statusCounts[status] = (statusCounts[status] || 0) + 1;
 
-    // Industry savings aggregation
-    const industry = row.industry || 'Other';
-    if (!industryMap[industry]) industryMap[industry] = { savings: 0, count: 0, budget: 0 };
-    industryMap[industry].savings += row.annual_savings_usd || 0;
-    industryMap[industry].count += 1;
-    industryMap[industry].budget += row.budget_usd || 0;
+    // sum up savings by industry
+    const ind = row.industry || 'Unknown';
+    if (!industryMap[ind]) industryMap[ind] = 0;
+    industryMap[ind] += (row.annual_savings_usd || 0);
 
-    // Department ROI aggregation
-    const dept = row.department || 'Other';
+    // avg roi per department
+    const dept = row.department || 'Unknown';
     if (!deptMap[dept]) deptMap[dept] = { totalRoi: 0, count: 0 };
-    deptMap[dept].totalRoi += row.roi_percent || 0;
-    deptMap[dept].count += 1;
+    deptMap[dept].totalRoi += (row.roi_percent || 0);
+    deptMap[dept].count++;
 
-    totalBudget += row.budget_usd || 0;
-    totalSavings += row.annual_savings_usd || 0;
-    totalRoi += row.roi_percent || 0;
+    totalBudget += (row.budget_usd || 0);
+    totalSavings += (row.annual_savings_usd || 0);
+    totalRoi += (row.roi_percent || 0);
   }
 
-  // Top 8 industries by savings
   const topIndustries = Object.entries(industryMap)
+    .map(([name, savings]) => ([name, { savings }]))
     .sort((a, b) => b[1].savings - a[1].savings)
-    .slice(0, 8);
+    .slice(0, 5);
 
-  // Department avg ROI
   const deptRoi = Object.entries(deptMap)
-    .map(([dept, d]) => ({ dept, avgRoi: d.totalRoi / d.count }))
+    .map(([dept, data]) => ({ dept, avgRoi: data.totalRoi / data.count }))
     .sort((a, b) => b.avgRoi - a.avgRoi)
-    .slice(0, 8);
+    .slice(0, 5);
 
-  return {
-    statusCounts,
-    topIndustries,
-    deptRoi,
-    totalBudget,
-    totalSavings,
-    avgRoi: count > 0 ? totalRoi / count : 0,
-    count,
-  };
+  return { statusCounts, topIndustries, deptRoi, totalBudget, totalSavings, totalRoi, count };
 }
 
-/**
- * Chart.js overlay panel — only renders charts when pipeline is paused
- * and user clicks "Analytics View".
- */
-const AnalyticsPanel = React.memo(function AnalyticsPanel() {
+// chart.js overlay panel — only renders charts when pipeline is paused
+// and user clicks "Analytics View".
+export default function AnalyticsPanel() {
   const { viewPool, isPaused, dataMap } = useStreamState();
+  const dispatch = useStreamDispatch();
   const [showCharts, setShowCharts] = useState(false);
 
-  // When stream resumes, collapse chart view
+  // hide charts if we unpause so we dont crash the browser
   useEffect(() => {
     if (!isPaused) setShowCharts(false);
   }, [isPaused]);
 
   const toggleCharts = useCallback(() => {
-    setShowCharts(prev => !prev);
-  }, []);
+    if (!isPaused) {
+      dispatch({ type: 'TOGGLE_PAUSE' });
+      setShowCharts(true);
+    } else {
+      setShowCharts(prev => !prev);
+    }
+  }, [isPaused, dispatch]);
 
-  // Aggregate from the full dataMap (frozen while paused)
+  // memoize the chart data so it doesnt lag
   const chartData = useMemo(() => {
     if (!showCharts || !isPaused || dataMap.size === 0) return null;
     return aggregateData(dataMap);
   }, [showCharts, isPaused, dataMap]);
 
-  // Live summary stats (always shown)
+  // quick stats shown before you open the charts
   const stats = useMemo(() => {
     if (viewPool.length === 0) return null;
     const statusCounts = {};
@@ -301,18 +290,16 @@ const AnalyticsPanel = React.memo(function AnalyticsPanel() {
     <div className="analytics-panel">
       <h3 className="analytics-title">View Analytics</h3>
 
-      {/* Analytics View toggle — only visible when paused */}
-      {isPaused && (
-        <button
-          className={`analytics-toggle-btn ${showCharts ? 'analytics-toggle-active' : ''}`}
-          onClick={toggleCharts}
-        >
-          <span className="analytics-toggle-icon">{showCharts ? '📊' : '📈'}</span>
-          {showCharts ? 'Close Analytics' : 'Analytics View'}
-        </button>
-      )}
+      {// analytics view toggle — always visible so user can click to check safely}
+      <button
+        className={`analytics-toggle-btn ${showCharts ? 'analytics-toggle-active' : ''}`}
+        onClick={toggleCharts}
+      >
+        <span className="analytics-toggle-icon">{showCharts ? '📊' : '📈'}</span>
+        {!isPaused ? 'Safe Check Analytics' : (showCharts ? 'Close Analytics' : 'Analytics View')}
+      </button>
 
-      {/* ─── CHART.JS OVERLAY (paused + toggled on) ─── */}
+      {// ─── chart.js overlay (paused + toggled on) ───}
       {showCharts && isPaused && chartData && (
         <div className="analytics-charts-overlay">
           <div className="analytics-chart-section">
@@ -350,7 +337,7 @@ const AnalyticsPanel = React.memo(function AnalyticsPanel() {
         </div>
       )}
 
-      {/* ─── EXISTING SUMMARY STATS (always visible) ─── */}
+      {// ─── existing summary stats (always visible) ───}
       <div className="analytics-stats">
         <div className="analytics-stat">
           <span className="stat-label">Avg ROI</span>

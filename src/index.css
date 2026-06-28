@@ -1,7 +1,4 @@
-/* ============================================================================
-   RPA MONITOR — Global Styles & Performance CSS
-   Dark Enterprise Terminal Theme
-   ============================================================================ */
+/* global styles and dark theme config */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
@@ -46,7 +43,7 @@ body,
   line-height: 1.4;
 }
 
-/* ─── APP ROOT LAYOUT ─── */
+/* main app wrapper setup */
 .app-root {
   display: grid;
   grid-template-rows: auto auto 1fr;
@@ -55,7 +52,7 @@ body,
   overflow: hidden;
 }
 
-/* ─── HEADER ─── */
+/* top nav and header */
 .app-header {
   display: flex;
   align-items: center;
@@ -93,7 +90,7 @@ body,
   gap: 12px;
 }
 
-/* ─── KPI STRIP ─── */
+/* styling for the top kpi cards */
 .kpi-strip {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -142,7 +139,7 @@ body,
   color: var(--text-primary);
 }
 
-/* ─── KPI FLASH ANIMATION ─── */
+/* added a flash effect when stats update */
 @media (prefers-reduced-motion: no-preference) {
   @keyframes kpiFlash {
     0% {
@@ -163,7 +160,7 @@ body,
   }
 }
 
-/* ─── TOOLBAR ROW ─── */
+/* search and filter row */
 .toolbar-row {
   display: flex;
   align-items: stretch;
@@ -174,7 +171,7 @@ body,
   flex-wrap: wrap;
 }
 
-/* ─── SEARCH BAR ─── */
+/* search input box */
 .search-bar {
   display: flex;
   align-items: center;
@@ -241,7 +238,7 @@ body,
   opacity: 1;
 }
 
-/* ─── FILTER PANEL ─── */
+/* dropdown filters */
 .filter-panel {
   display: flex;
   align-items: center;
@@ -611,7 +608,7 @@ body,
 }
 
 
-/* ─── FLOATING SCROLL BUTTONS ─── */
+/* scroll buttons for the grid */
 .grid-scroll-btn {
   position: absolute;
   top: 50%;
@@ -894,7 +891,7 @@ body,
   flex-shrink: 0;
 }
 
-/* ─── INFRA TOGGLES ─── */
+/* infra filter switches */
 .infra-toggles-panel {
   padding: 12px 0;
 }
@@ -955,7 +952,7 @@ body,
   transform: translateX(18px);
 }
 
-/* ─── ANALYTICS PANEL ─── */
+/* right side analytics dashboard */
 .analytics-panel {
   padding: 12px 0;
   min-width: 0;
@@ -1167,7 +1164,7 @@ body,
   color: var(--text-muted);
 }
 
-/* ─── TITLE PULSE ─── */
+/* pulsing green dot in title */
 @keyframes titlePulse {
 
   0%,
@@ -1182,7 +1179,7 @@ body,
   }
 }
 
-/* ─── EMPTY STATE ─── */
+/* fallback UI when no data matches */
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -1239,12 +1236,12 @@ body,
   border-right: 2px solid var(--border-bright);
 }
 
-/* ─── MOBILE BOTTOM NAVIGATION (Hidden by default) ─── */
+/* bottom tab bar (only shows on phones) */
 .mobile-bottom-nav {
   display: none;
 }
 
-/* ─── DESKTOP PANEL VISIBILITY ─── */
+/* making sure desktop panels hide correctly based on state */
 @media (min-width: 769px) {
   .layout-state-grid .sidebar-panel {
     display: none !important;
@@ -1254,7 +1251,7 @@ body,
   }
 }
 
-/* ─── NATIVE APP-LIKE MOBILE RESPONSIVENESS ─── */
+/* fixed mobile response by stacking kpis vertically and adding tabs */
 @media (max-width: 768px) {
   /* Change root layout to accommodate bottom nav */
   .app-root {
@@ -1278,19 +1275,27 @@ body,
     font-size: 14px;
   }
 
-  /* KPI Strip Horizontal Scroll */
+  /* KPI Strip Stack */
   .kpi-strip {
-    display: flex;
-    overflow-x: auto;
+    display: grid;
+    grid-template-columns: 1fr;
     padding: 10px 16px;
-    gap: 12px;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
+    gap: 8px;
+    overflow-x: hidden;
   }
 
   .kpi-card {
-    flex: 0 0 85%;
-    scroll-snap-align: center;
+    width: 100%;
+    padding: 12px 16px;
+  }
+
+  /* Analytics Panel Mobile Padding */
+  .analytics-panel {
+    padding: 16px 20px;
+  }
+  
+  .analytics-stat-row {
+    padding-right: 4px;
   }
 
   /* Full Screen Panel Toggling based on Active Tab */
