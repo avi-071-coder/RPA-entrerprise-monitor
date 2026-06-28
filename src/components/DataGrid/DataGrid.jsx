@@ -1,9 +1,7 @@
-/**
- * DataGrid.jsx — Feature 8: Virtualized DOM grid container.
- * Custom virtual scroll with max ~30 DOM nodes regardless of dataset size.
- * NO external virtualization libraries.
- * Header scrolls horizontally in sync with the grid body.
- */
+// dataGrid.jsx — Feature 8: Virtualized DOM grid container.
+// custom virtual scroll with max ~30 DOM nodes regardless of dataset size.
+// NO external virtualization libraries.
+// header scrolls horizontally in sync with the grid body.
 
 import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import { useStreamState } from '../../store/streamStore.jsx';
@@ -74,7 +72,7 @@ const DataGrid = React.memo(function DataGrid() {
   return (
     <div className="data-grid-wrapper" style={{ flex: '1 1 auto', minWidth: 0, overflow: 'hidden' }}>
 
-      {/* Header scrolls horizontally in sync — overflow hidden, scrollLeft set by JS */}
+      {// header scrolls horizontally in sync — overflow hidden, scrollleft set by js}
       <div
         ref={headerWrapperRef}
         className="grid-header-wrapper"

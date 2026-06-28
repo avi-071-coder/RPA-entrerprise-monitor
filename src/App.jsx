@@ -69,7 +69,7 @@ function AppContent() {
         </div>
       </main>
 
-      {/* ─── MOBILE BOTTOM NAVIGATION ─── */}
+      {// ─── mobile bottom navigation ───}
       <nav className="mobile-bottom-nav">
         <button 
           className={`mobile-nav-btn ${mobileTab === 'grid' ? 'active' : ''}`}

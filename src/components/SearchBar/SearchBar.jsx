@@ -1,7 +1,5 @@
-/**
- * SearchBar.jsx — Feature 10: Fuzzy search input with debounced dispatch.
- * 150ms debounce prevents grid freezing during typing.
- */
+// searchBar.jsx — Feature 10: Fuzzy search input with debounced dispatch.
+// 150ms debounce prevents grid freezing during typing.
 
 import React from 'react';
 import useFuzzySearch from '../../hooks/useFuzzySearch.js';

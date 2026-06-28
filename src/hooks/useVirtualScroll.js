@@ -1,8 +1,6 @@
-/**
- * useVirtualScroll.js — Custom row-recycling virtualization engine.
- * DOM contains only visible rows (max ~30 nodes) instead of all 50,000.
- * Uses rAF-throttled scroll handler for 60fps performance.
- */
+// useVirtualScroll.js — Custom row-recycling virtualization engine.
+// DOM contains only visible rows (max ~30 nodes) instead of all 50,000.
+// uses rAF-throttled scroll handler for 60fps performance.
 
 import { useState, useRef, useCallback, useMemo } from 'react';
 

@@ -1,8 +1,6 @@
-/**
- * GridRow.jsx — Feature 3: Single row in the virtual grid with alert flash capability.
- * Memoized with custom comparator for performance.
- * All formatting via formatters.js utilities.
- */
+// gridRow.jsx — Feature 3: Single row in the virtual grid with alert flash capability.
+// memoized with custom comparator for performance.
+// all formatting via formatters.js utilities.
 
 import React from 'react';
 import { isAlertRow, formatCurrency, formatInteger, formatPercent } from '../../utils/formatters.js';

@@ -1,8 +1,6 @@
-/**
- * KPIStrip.jsx — Feature 1: Live-updating KPI counter strip.
- * Uses React.memo with per-card memoization for minimal re-renders.
- * CSS animation flash on value change (no JS timers).
- */
+// KPIStrip.jsx — Feature 1: Live-updating KPI counter strip.
+// uses React.memo with per-card memoization for minimal re-renders.
+// CSS animation flash on value change (no JS timers).
 
 import React, { useRef, useEffect } from 'react';
 import { useStreamState } from '../../store/streamStore.jsx';

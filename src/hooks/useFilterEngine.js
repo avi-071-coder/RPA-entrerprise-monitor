@@ -1,7 +1,5 @@
-/**
- * useFilterEngine.js — Feature 7: Categorical filter logic.
- * Extracts unique filter options from dataMap with debounced recomputation.
- */
+// useFilterEngine.js — Feature 7: Categorical filter logic.
+// extracts unique filter options from dataMap with debounced recomputation.
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useStreamState, useStreamDispatch } from '../store/streamStore.jsx';

@@ -1,8 +1,6 @@
-/**
- * FilterPanel.jsx — Feature 7: Categorical filter dropdowns with multi-select.
- * Three dropdowns: automation_type, department, industry.
- * Active filters shown as dismissible chips.
- */
+// filterPanel.jsx — Feature 7: Categorical filter dropdowns with multi-select.
+// three dropdowns: automation_type, department, industry.
+// active filters shown as dismissible chips.
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import useFilterEngine from '../../hooks/useFilterEngine.js';
@@ -173,7 +171,7 @@ const FilterPanel = React.memo(function FilterPanel() {
         />
       ))}
 
-      {/* Active filter chips */}
+      {// active filter chips}
       <div className="filter-chips">
         {Object.entries(activeFilters).map(([field, values]) =>
           values.map(val => (

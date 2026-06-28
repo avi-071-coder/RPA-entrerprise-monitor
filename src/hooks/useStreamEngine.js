@@ -1,10 +1,7 @@
-/**
- * useStreamEngine.js — Bridge between window.initializeRpaStream and streamStore dispatch.
- * Connects the dataStream.js pipeline to React state.
- * 
- * LIMITATION: The initializeRpaStream sets an internal setInterval that cannot be cleared
- * from outside. The isInitialized guard inside dataStream.js prevents double-initialization.
- */
+// useStreamEngine.js — Bridge between window.initializeRpaStream and streamStore dispatch.
+// connects the dataStream.js pipeline to React state.
+// LIMITATION: The initializeRpaStream sets an internal setInterval that cannot be cleared
+// from outside. The isInitialized guard inside dataStream.js prevents double-initialization.
 
 import { useEffect, useRef } from 'react';
 import { useStreamDispatch } from '../store/streamStore.jsx';

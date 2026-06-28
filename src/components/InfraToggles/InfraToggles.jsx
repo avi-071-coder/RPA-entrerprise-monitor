@@ -1,8 +1,6 @@
-/**
- * InfraToggles.jsx — Infrastructure filter toggles (ai_enabled, cloud_deployment).
- * Dispatches INFRA_FILTER_SET for binary Yes/No filtering.
- * CSS-only toggle switches.
- */
+// infraToggles.jsx — Infrastructure filter toggles (ai_enabled, cloud_deployment).
+// dispatches INFRA_FILTER_SET for binary Yes/No filtering.
+// CSS-only toggle switches.
 
 import React, { useState, useCallback } from 'react';
 import { useStreamState, useStreamDispatch } from '../../store/streamStore.jsx';

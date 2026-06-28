@@ -1,7 +1,5 @@
-/**
- * streamStore.jsx — Central State Engine (useReducer + Context API)
- * Manages the entire data pipeline state for the RPA Monitor dashboard.
- */
+// streamStore.jsx — Central State Engine (useReducer + Context API)
+// manages the entire data pipeline state for the RPA Monitor dashboard.
 
 import React, { createContext, useContext, useReducer, useEffect, useRef, useCallback } from 'react';
 import { multiColumnSort } from '../utils/sortUtils.js';
@@ -17,7 +15,7 @@ function loadLayout() {
   try {
     const stored = localStorage.getItem('rpa_monitor_layout');
     if (stored) return JSON.parse(stored);
-  } catch (e) { /* ignore */ }
+  } catch (e) { // ignore }
   return { gridWindow: true, analyticsChart: true, infraToggles: true };
 }
 
@@ -179,10 +177,8 @@ function streamReducer(state, action) {
   }
 }
 
-/**
- * Pure function to recompute the view pool (filtered + sorted array).
- * Called from useEffect, NOT from the reducer.
- */
+// pure function to recompute the view pool (filtered + sorted array).
+// called from useEffect, NOT from the reducer.
 export function recomputeViewPool(dataMap, sortPriority, filters, searchQuery, infraFilters) {
   let data = Array.from(dataMap.values());
 
@@ -248,7 +244,7 @@ export function StreamProvider({ children }) {
   useEffect(() => {
     try {
       localStorage.setItem('rpa_monitor_layout', JSON.stringify(state.layout));
-    } catch (e) { /* ignore */ }
+    } catch (e) { // ignore }
   }, [state.layout]);
 
   return (

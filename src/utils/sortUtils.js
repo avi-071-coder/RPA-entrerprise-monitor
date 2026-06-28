@@ -1,7 +1,5 @@
-/**
- * sortUtils.js — Multi-column sort comparator for the data grid.
- * Must complete in <150ms for 50,000 rows using a single Array.sort call.
- */
+// sortUtils.js — Multi-column sort comparator for the data grid.
+// must complete in <150ms for 50,000 rows using a single Array.sort call.
 
 const NUMERIC_COLUMNS = new Set([
   'budget_usd',
@@ -11,12 +9,10 @@ const NUMERIC_COLUMNS = new Set([
   'annual_savings_usd',
 ]);
 
-/**
- * Multi-column sort function.
- * @param {Array} data - Array of row objects (not mutated)
- * @param {Array} sortPriority - [{ column: string, direction: 'asc'|'desc' }, ...]
- * @returns {Array} New sorted array
- */
+// multi-column sort function.
+// @param {Array} data - Array of row objects (not mutated)
+// @param {Array} sortPriority - [{ column: string, direction: 'asc'|'desc' }, ...]
+// @returns {Array} New sorted array
 export function multiColumnSort(data, sortPriority) {
   if (!sortPriority || sortPriority.length === 0) return data;
 

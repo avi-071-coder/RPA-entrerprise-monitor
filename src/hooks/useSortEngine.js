@@ -1,7 +1,5 @@
-/**
- * useSortEngine.js — Sort dispatch logic for single and multi-column sorting.
- * Handles Shift+click for multi-sort (max 3 columns) vs regular click for single sort.
- */
+// useSortEngine.js — Sort dispatch logic for single and multi-column sorting.
+// handles Shift+click for multi-sort (max 3 columns) vs regular click for single sort.
 
 import { useCallback } from 'react';
 import { useStreamState, useStreamDispatch } from '../store/streamStore.jsx';

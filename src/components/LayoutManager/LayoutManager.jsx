@@ -1,7 +1,5 @@
-/**
- * LayoutManager.jsx — Feature 6: Show/hide UI panels with localStorage persistence.
- * Toggles for Grid Window, Department Analytics, and Infrastructure Toggles.
- */
+// layoutManager.jsx — Feature 6: Show/hide UI panels with localStorage persistence.
+// toggles for Grid Window, Department Analytics, and Infrastructure Toggles.
 
 import React, { useEffect, useRef } from 'react';
 import { useStreamState, useStreamDispatch } from '../../store/streamStore.jsx';
@@ -29,7 +27,7 @@ const LayoutManager = React.memo(function LayoutManager() {
           dispatch({ type: 'LAYOUT_SET', payload: { panelId, visible } });
         }
       }
-    } catch (e) { /* ignore */ }
+    } catch (e) { // ignore }
   }, [dispatch]);
 
   const handleToggle = (panelId) => {

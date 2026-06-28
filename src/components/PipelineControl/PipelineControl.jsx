@@ -1,8 +1,6 @@
-/**
- * PipelineControl.jsx — Feature 5: Pause/Play toggle for the data stream.
- * The dataStream.js interval CANNOT be stopped — "Pause" means the UI stops updating
- * while the store buffers incoming batches into pendingQueue.
- */
+// pipelineControl.jsx — Feature 5: Pause/Play toggle for the data stream.
+// the dataStream.js interval CANNOT be stopped — "Pause" means the UI stops updating
+// while the store buffers incoming batches into pendingQueue.
 
 import React from 'react';
 import { useStreamState, useStreamDispatch } from '../../store/streamStore.jsx';

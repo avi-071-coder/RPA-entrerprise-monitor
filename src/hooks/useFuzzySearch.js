@@ -1,19 +1,15 @@
-/**
- * useFuzzySearch.js — Feature 10: Multi-field fuzzy search matcher
- * Implements out-of-order token matching across specified row fields.
- */
+// useFuzzySearch.js — Feature 10: Multi-field fuzzy search matcher
+// implements out-of-order token matching across specified row fields.
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useStreamDispatch } from '../store/streamStore.jsx';
 
 const SEARCH_FIELDS = ['project_name', 'project_id', 'company_id', 'implementation_partner', 'country'];
 
-/**
- * Check if a single row matches a search query.
- * @param {Object} row - Data row
- * @param {string} query - Raw search string
- * @returns {boolean}
- */
+// check if a single row matches a search query.
+// @param {Object} row - Data row
+// @param {string} query - Raw search string
+// @returns {boolean}
 export function fuzzyMatch(row, query) {
   if (!query || !query.trim()) return true;
 
@@ -27,12 +23,10 @@ export function fuzzyMatch(row, query) {
   );
 }
 
-/**
- * Creates a curried matcher function for use inside Array.filter.
- * Pre-lowercases tokens once outside the loop for performance.
- * @param {string} query - Raw search string
- * @returns {(row: Object) => boolean}
- */
+// creates a curried matcher function for use inside Array.filter.
+// pre-lowercases tokens once outside the loop for performance.
+// @param {string} query - Raw search string
+// @returns {(row: Object) => boolean}
 export function createTokenMatcher(query) {
   if (!query || !query.trim()) return () => true;
 
@@ -48,9 +42,7 @@ export function createTokenMatcher(query) {
   };
 }
 
-/**
- * Custom hook for debounced fuzzy search dispatch.
- */
+// custom hook for debounced fuzzy search dispatch.
 export default function useFuzzySearch() {
   const dispatch = useStreamDispatch();
   const [localQuery, setLocalQuery] = useState('');

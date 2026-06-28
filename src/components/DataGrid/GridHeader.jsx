@@ -1,7 +1,5 @@
-/**
- * GridHeader.jsx — Features 4 + 9: Sortable column headers with visual sort indicators.
- * Supports single-click sort and Shift+click multi-sort.
- */
+// gridHeader.jsx — Features 4 + 9: Sortable column headers with visual sort indicators.
+// supports single-click sort and Shift+click multi-sort.
 
 import React from 'react';
 import useSortEngine from '../../hooks/useSortEngine.js';
