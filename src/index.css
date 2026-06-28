@@ -1018,6 +1018,85 @@ body,
   transition: width 0.5s ease;
 }
 
+/* ─── MASSIVE ANALYTICS CTA ─── */
+.analytics-empty-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: 16px;
+  border: 1px dashed rgba(56, 189, 248, 0.3);
+  margin: 20px 0;
+  min-height: 250px;
+}
+
+.cta-icon-pulse {
+  font-size: 48px;
+  margin-bottom: 16px;
+  animation: pulse-glow 2s infinite ease-in-out;
+  filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.6));
+}
+
+@keyframes pulse-glow {
+  0%, 100% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.6)); }
+  50% { transform: scale(1.1); opacity: 0.8; filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.9)); }
+}
+
+.analytics-empty-cta h4 {
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  font-size: 18px;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.analytics-empty-cta p {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+  max-width: 80%;
+}
+
+.massive-safe-check-btn {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(56, 189, 248, 0.05));
+  border: 1px solid var(--accent-blue);
+  color: var(--accent-blue);
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.massive-safe-check-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.4), transparent);
+  transition: 0.5s;
+}
+
+.massive-safe-check-btn:hover {
+  background: rgba(56, 189, 248, 0.15);
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
+  transform: translateY(-2px);
+}
+
+.massive-safe-check-btn:hover::before {
+  left: 100%;
+}
+
 /* ─── ANALYTICS CHART OVERLAY ─── */
 .analytics-toggle-btn {
   display: flex;

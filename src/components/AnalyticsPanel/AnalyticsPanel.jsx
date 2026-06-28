@@ -290,14 +290,28 @@ export default function AnalyticsPanel() {
     <div className="analytics-panel">
       <h3 className="analytics-title">View Analytics</h3>
 
-      {/* analytics view toggle — always visible so user can click to check safely */}
-      <button
-        className={`analytics-toggle-btn ${showCharts ? 'analytics-toggle-active' : ''}`}
-        onClick={toggleCharts}
-      >
-        <span className="analytics-toggle-icon">{showCharts ? '📊' : '📈'}</span>
-        {!isPaused ? 'Safe Check Analytics' : (showCharts ? 'Close Analytics' : 'Analytics View')}
-      </button>
+      {/* close button when charts are visible */}
+      {showCharts && (
+        <button
+          className="analytics-toggle-btn analytics-toggle-active"
+          onClick={toggleCharts}
+        >
+          <span className="analytics-toggle-icon">📈</span>
+          Close Analytics
+        </button>
+      )}
+
+      {/* massive CTA when charts are hidden */}
+      {!showCharts && (
+        <div className="analytics-empty-cta">
+          <div className="cta-icon-pulse">📊</div>
+          <h4>Live Analytics Engine</h4>
+          <p>Analyzing telemetry in real-time. Generating charts requires pausing the stream to prevent frame drops.</p>
+          <button className="massive-safe-check-btn" onClick={toggleCharts}>
+            {!isPaused ? 'Safe Check Analytics' : 'Analytics View'}
+          </button>
+        </div>
+      )}
 
       {/* ─── chart.js overlay (paused + toggled on) ─── */}
       {showCharts && isPaused && chartData && (
