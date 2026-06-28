@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useStreamState } from './store/streamStore.jsx';
 import useStreamEngine from './hooks/useStreamEngine.js';
+import { exportSnapshotCSV } from './utils/csvExport.js';
 import KPIStrip from './components/KPIStrip/KPIStrip.jsx';
 import DataGrid from './components/DataGrid/DataGrid.jsx';
 import PipelineControl from './components/PipelineControl/PipelineControl.jsx';
@@ -9,22 +10,32 @@ import FilterPanel from './components/FilterPanel/FilterPanel.jsx';
 import SearchBar from './components/SearchBar/SearchBar.jsx';
 import InfraToggles from './components/InfraToggles/InfraToggles.jsx';
 import AnalyticsPanel from './components/AnalyticsPanel/AnalyticsPanel.jsx';
+import ProjectInspector from './components/ProjectInspector/ProjectInspector.jsx';
 
 function AppContent() {
   useStreamEngine();
 
-  const { layout } = useStreamState();
+  const { layout, viewPool } = useStreamState();
   const showGrid = layout.gridWindow;
   const showSidebar = layout.analyticsChart;
 
   const contentRef = useRef(null);
 
-  const layoutClass = (showGrid && showSidebar) 
-    ? 'layout-state-both' 
+  const layoutClass = (showGrid && showSidebar)
+    ? 'layout-state-both'
     : (showSidebar ? 'layout-state-sidebar' : 'layout-state-grid');
 
   // Mobile App-like Tab Navigation State
-  const [mobileTab, setMobileTab] = useState('grid'); // 'grid' | 'analytics'
+  const [mobileTab, setMobileTab] = useState('grid');
+
+  // Snapshot export state
+  const [exporting, setExporting] = useState(false);
+  const handleExport = useCallback(async () => {
+    if (exporting || viewPool.length === 0) return;
+    setExporting(true);
+    await exportSnapshotCSV(viewPool);
+    setExporting(false);
+  }, [viewPool, exporting]);
 
   return (
     <div className={`app-root mobile-active-${mobileTab}`}>
@@ -52,37 +63,43 @@ function AppContent() {
             <div className="toolbar-row">
               <SearchBar />
               <FilterPanel />
+              <button
+                className="snapshot-export-btn"
+                onClick={handleExport}
+                disabled={exporting || viewPool.length === 0}
+                title="Export current filtered view as CSV"
+              >
+                {exporting ? 'Exporting...' : 'Export CSV'}
+              </button>
             </div>
             <div className="grid-panel">
               <DataGrid />
             </div>
           </div>
 
-          <aside className="sidebar-panel" style={{ 
-            width: '100%',
-            maxWidth: '100%',
-            minWidth: 0,
-          }}>
+          <aside className="sidebar-panel">
             <AnalyticsPanel />
             <InfraToggles />
           </aside>
         </div>
       </main>
 
+      <ProjectInspector />
+
       {/* ─── mobile bottom navigation ─── */}
       <nav className="mobile-bottom-nav">
-        <button 
+        <button
           className={`mobile-nav-btn ${mobileTab === 'grid' ? 'active' : ''}`}
           onClick={() => setMobileTab('grid')}
         >
-          <span className="icon">≡</span> 
+          <span className="icon">≡</span>
           <span>Data Grid</span>
         </button>
-        <button 
+        <button
           className={`mobile-nav-btn ${mobileTab === 'analytics' ? 'active' : ''}`}
           onClick={() => setMobileTab('analytics')}
         >
-          <span className="icon">📊</span> 
+          <span className="icon">📊</span>
           <span>Analytics</span>
         </button>
       </nav>

@@ -105,12 +105,16 @@ function SortDropdown() {
     return () => document.removeEventListener('mousedown', handleOutsideClick);
   }, [isOpen]);
 
+  const activeSortColumn = sortPriority && sortPriority.length > 0 ? sortPriority[0].column : null;
+
   const handleSort = (column, direction) => {
-    dispatch({ type: 'SORT_SET', payload: { column, direction } });
+    if (activeSortColumn === column) {
+      dispatch({ type: 'SORT_SET', payload: { column: '', direction: 'asc' } });
+    } else {
+      dispatch({ type: 'SORT_SET', payload: { column, direction } });
+    }
     setIsOpen(false);
   };
-
-  const activeSortColumn = sortPriority && sortPriority.length > 0 ? sortPriority[0].column : null;
 
   return (
     <div className="filter-dropdown" ref={dropdownRef} style={{ marginRight: '8px' }}>

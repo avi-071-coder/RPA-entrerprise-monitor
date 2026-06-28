@@ -13,12 +13,18 @@ This dashboard solves that by ingesting a massive stream of 50,000 project recor
 - **On-Demand Analytics Engine**: Integrates Chart.js for data visualization, strictly isolating chart rendering to "Paused" states to guarantee zero frame drops during live high-frequency data ingestion.
 
 ## Core Features
-1. **Real-time KPI Engine**: Tracks total rows processed, cumulative savings ($USD), and active robots deployed.
+1. **Real-time KPI Engine**: Tracks total rows processed, cumulative savings ($USD), and active robots deployed with upward trend indicators and custom graph-paper grid textures.
 2. **Alert Flash System**: Instantly highlights "Failed" projects or projects experiencing a negative ROI anomaly with a transient red flash.
 3. **Interactive Analytics Overlay**: When the data pipeline is paused, toggle an advanced Chart.js dashboard to visualize Project Status distributions, Top Industry Savings, and Department ROI breakdowns using frozen data snapshots.
-4. **Fuzzy Search Engine**: Instantly filters 50,000 rows across Project Name, ID, Partner, and Country.
-5. **Categorical Filtering**: Multi-select dropdowns for quick segmentation by Department, Industry, and Automation Type.
+4. **Fuzzy Search Engine**: Instantly filters 50,000 rows across Project Name, ID, Partner, and Country with a sleek inline clear action.
+5. **Categorical Filtering**: Multi-select dropdowns for quick segmentation by Department, Industry, Automation Type, and Status.
 6. **Pipeline Control**: Pause the live stream to inspect data while the underlying buffer continues to queue incoming anomalies.
+7. **Detailed Project Inspector Drawer**: Deep-dive into a project's metrics when paused, showing a calculated project duration in months, and prominent financial highlights.
+
+## Premium UX & Polish (Hackathon Ready)
+- **Header Scanline Animation**: A subtle CSS-only horizontal scanning animation across the header gives the application a live, enterprise monitoring atmosphere.
+- **Trackpad Scroll Locking**: Native precision touchpad gesture optimization. Once you start scrolling in a dominant direction (vertically or horizontally), the opposing axis is locked to prevent slippery diagonal drift.
+- **Minimalist Styling**: Ultra-thin custom scrollbars, right-rounded bar charts, unified cyan border scanner lines, and custom HSL colors.
 
 ## Setup & Execution
 
@@ -35,3 +41,4 @@ This dashboard solves that by ingesting a massive stream of 50,000 project recor
    ```bash
    npm run dev
    ```
+

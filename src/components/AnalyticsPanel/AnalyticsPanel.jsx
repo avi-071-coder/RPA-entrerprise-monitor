@@ -157,7 +157,7 @@ export default function AnalyticsPanel() {
         backgroundColor: INDUSTRY_COLORS.slice(0, chartData.topIndustries.length).map(c => c + '99'),
         borderColor: INDUSTRY_COLORS.slice(0, chartData.topIndustries.length),
         borderWidth: 1,
-        borderRadius: 4,
+        borderRadius: { topRight: 6, bottomRight: 6, topLeft: 0, bottomLeft: 0 },
       }],
     };
   }, [chartData]);
@@ -176,7 +176,7 @@ export default function AnalyticsPanel() {
           d.avgRoi >= 100 ? '#4ade80' : d.avgRoi >= 50 ? '#fbbf24' : '#f87171'
         ),
         borderWidth: 1,
-        borderRadius: 4,
+        borderRadius: { topRight: 6, bottomRight: 6, topLeft: 0, bottomLeft: 0 },
       }],
     };
   }, [chartData]);
@@ -283,8 +283,7 @@ export default function AnalyticsPanel() {
     );
   }
 
-  const MAX_EXPECTED = 20000;
-  const maxStatus = Math.max(...Object.values(stats.statusCounts), MAX_EXPECTED);
+  const maxStatus = Math.max(...Object.values(stats.statusCounts), 1);
 
   return (
     <div className="analytics-panel">
@@ -305,8 +304,8 @@ export default function AnalyticsPanel() {
       {!showCharts && (
         <div className="analytics-empty-cta">
           {!isPaused ? (
-            <p style={{ color: 'var(--accent-red)', fontWeight: 'bold' }}>
-              ⚠️ The stream is currently LIVE. Pause to generate your chart.
+            <p className="analytics-inline-note">
+              Charts auto-update when the stream is paused.
             </p>
           ) : (
             <>

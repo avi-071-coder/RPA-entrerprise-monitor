@@ -4,7 +4,7 @@
 // header scrolls horizontally in sync with the grid body.
 
 import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
-import { useStreamState } from '../../store/streamStore.jsx';
+import { useStreamState, useStreamDispatch } from '../../store/streamStore.jsx';
 import useVirtualScroll from '../../hooks/useVirtualScroll.js';
 import GridHeader from './GridHeader.jsx';
 import GridRow from './GridRow.jsx';
@@ -12,7 +12,7 @@ import GridRow from './GridRow.jsx';
 const COLUMNS = [
   { key: 'project_id', label: 'Project ID', width: 100 },
   { key: 'project_name', label: 'Project Name', width: 200 },
-  { key: 'project_status', label: 'Status', width: 90 },
+  { key: 'project_status', label: 'Status', width: 110 },
   { key: 'automation_type', label: 'Type', width: 150 },
   { key: 'robots_deployed', label: 'Robots', width: 80 },
   { key: 'budget_usd', label: 'Budget', width: 120 },
@@ -26,7 +26,8 @@ const COLUMNS = [
 ];
 
 const DataGrid = React.memo(function DataGrid() {
-  const { viewPool } = useStreamState();
+  const { viewPool, isPaused } = useStreamState();
+  const dispatch = useStreamDispatch();
   const containerRef = useRef(null);
   const headerWrapperRef = useRef(null);
   const [containerHeight, setContainerHeight] = useState(600);
@@ -44,6 +45,52 @@ const DataGrid = React.memo(function DataGrid() {
     return () => observer.disconnect();
   }, []);
 
+  // Prevent diagonal scrolling by locking wheel events to a single dominant axis
+  const wheelLockRef = useRef({ active: false, axis: null, timeout: null });
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const handleWheel = (e) => {
+      const lock = wheelLockRef.current;
+      const absX = Math.abs(e.deltaX);
+      const absY = Math.abs(e.deltaY);
+
+      if (!lock.active) {
+        if (absX > 2 || absY > 2) {
+          lock.active = true;
+          lock.axis = absX > absY ? 'x' : 'y';
+        }
+      }
+
+      if (lock.active) {
+        if (lock.axis === 'x') {
+          if (absY > 0) {
+            e.preventDefault();
+            el.scrollLeft += e.deltaX;
+          }
+        } else if (lock.axis === 'y') {
+          if (absX > 0) {
+            e.preventDefault();
+            el.scrollTop += e.deltaY;
+          }
+        }
+      }
+
+      clearTimeout(lock.timeout);
+      lock.timeout = setTimeout(() => {
+        lock.active = false;
+        lock.axis = null;
+      }, 100);
+    };
+
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      el.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
+
+
   const { visibleRange, totalHeight, handleScroll: baseHandleScroll, rowHeight } = useVirtualScroll(
     viewPool.length,
     containerHeight
@@ -56,6 +103,20 @@ const DataGrid = React.memo(function DataGrid() {
       headerWrapperRef.current.scrollLeft = e.target.scrollLeft;
     }
   }, [baseHandleScroll]);
+
+  // Handle delegated row clicks when paused
+  const handleRowClick = useCallback((e) => {
+    if (!isPaused) return;
+    const rowEl = e.target.closest('.grid-row');
+    if (!rowEl) return;
+    const uid = rowEl.getAttribute('data-uid');
+    if (uid) {
+      const rowData = viewPool.find(r => r.internal_uid === uid);
+      if (rowData) {
+        dispatch({ type: 'SET_INSPECTED_PROJECT', payload: rowData });
+      }
+    }
+  }, [isPaused, viewPool, dispatch]);
 
   const visibleRows = useMemo(() => {
     const { startIndex, endIndex } = visibleRange;
@@ -84,8 +145,9 @@ const DataGrid = React.memo(function DataGrid() {
       </div>
       <div
         ref={containerRef}
-        className="grid-scroll-container"
+        className={`grid-scroll-container ${isPaused ? 'paused-interactive' : ''}`}
         onScroll={handleScroll}
+        onClick={handleRowClick}
         style={{ minWidth: 0, width: '100%' }}
       >
         {viewPool.length === 0 ? (
@@ -116,7 +178,7 @@ const DataGrid = React.memo(function DataGrid() {
         )}
       </div>
       <div className="grid-status-bar">
-        <span>{viewPool.length.toLocaleString()} rows</span>
+        <span>{viewPool.length.toLocaleString()} of 50,000 rows</span>
       </div>
     </div>
   );

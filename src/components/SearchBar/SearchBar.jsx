@@ -18,12 +18,7 @@ const SearchBar = React.memo(function SearchBar() {
         placeholder="Search by project, company, partner, country..."
       />
       {localQuery && (
-        <div className="search-active">
-          <span className="search-chip">
-            Searching: {localQuery}
-            <button className="chip-dismiss" onClick={clearSearch}>✕</button>
-          </span>
-        </div>
+        <button className="search-clear-btn" onClick={clearSearch} title="Clear search">✕</button>
       )}
     </div>
   );

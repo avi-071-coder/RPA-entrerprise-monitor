@@ -21,7 +21,9 @@ const PipelineControl = React.memo(function PipelineControl() {
             <span className="pulse-dot pulse-red"></span>
             PAUSED
           </span>
-          <span className="pipeline-buffered">{pendingQueue.length} rows buffered</span>
+          <span className="pipeline-buffered">
+            {pendingQueue.length} <span className="buffered-txt-desktop">rows buffered</span><span className="buffered-txt-mobile">buf</span>
+          </span>
           <button className="pipeline-btn pipeline-btn-resume" onClick={handleToggle}>
             ▶ RESUME
           </button>

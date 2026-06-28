@@ -36,6 +36,7 @@ const initialState = {
   kpiCumulativeSavings: 0,
   layout: loadLayout(),
   streamError: null,
+  inspectedProject: null,
 };
 
 function streamReducer(state, action) {
@@ -173,6 +174,12 @@ function streamReducer(state, action) {
 
     case 'STREAM_ERROR':
       return { ...state, streamError: action.payload };
+
+    case 'SET_INSPECTED_PROJECT':
+      return { ...state, inspectedProject: action.payload };
+
+    case 'CLEAR_INSPECTED_PROJECT':
+      return { ...state, inspectedProject: null };
 
     default:
       return state;

@@ -30,8 +30,10 @@ function GridRowInner({ row, style, columns }) {
         const statusClass = {
           'Active': 'badge-active',
           'Completed': 'badge-completed',
+          'Complete': 'badge-completed',
           'Planned': 'badge-planned',
           'Failed': 'badge-failed',
+          'Fail': 'badge-failed',
         }[val] || 'badge-default';
         return <span className={`status-badge ${statusClass}`}>{val}</span>;
       }

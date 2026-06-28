@@ -23,7 +23,10 @@ const KPICard = React.memo(function KPICard({ label, value, accentClass }) {
   return (
     <div className={`kpi-card ${accentClass}`}>
       <span className="kpi-label">{label}</span>
-      <span className="kpi-value" ref={spanRef}>{value}</span>
+      <span className="kpi-value" ref={spanRef}>
+        {value}
+        <span className="trend-arrow" style={{ fontSize: '0.6em', marginLeft: '8px', color: 'var(--accent-green)', opacity: 0.8, verticalAlign: 'middle' }}>↑</span>
+      </span>
     </div>
   );
 });
