@@ -1354,18 +1354,32 @@ body,
     font-size: 14px;
   }
 
-  /* KPI Strip Stack */
+  /* KPI Strip (One line on mobile to save vertical space) */
   .kpi-strip {
     display: grid;
-    grid-template-columns: 1fr;
-    padding: 10px 16px;
-    gap: 8px;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 8px 12px;
+    gap: 6px;
     overflow-x: hidden;
   }
 
   .kpi-card {
     width: 100%;
-    padding: 12px 16px;
+    padding: 8px;
+    gap: 2px;
+    border-left-width: 2px;
+  }
+
+  .kpi-strip .kpi-label {
+    font-size: 8px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .kpi-strip .kpi-value {
+    font-size: 13px;
   }
 
   /* Analytics Panel Mobile Padding */

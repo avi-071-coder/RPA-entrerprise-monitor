@@ -306,10 +306,18 @@ export default function AnalyticsPanel() {
         <div className="analytics-empty-cta">
           <div className="cta-icon-pulse">📊</div>
           <h4>Live Analytics Engine</h4>
-          <p>Analyzing telemetry in real-time. Generating charts requires pausing the stream to prevent frame drops.</p>
-          <button className="massive-safe-check-btn" onClick={toggleCharts}>
-            {!isPaused ? 'Safe Check Analytics' : 'Analytics View'}
-          </button>
+          {!isPaused ? (
+            <p style={{ color: 'var(--accent-red)', fontWeight: 'bold' }}>
+              ⚠️ The stream is currently LIVE. Pause to generate your chart.
+            </p>
+          ) : (
+            <>
+              <p>Stream is paused. Safe to generate charts.</p>
+              <button className="massive-safe-check-btn" onClick={toggleCharts}>
+                Generate Analytics View
+              </button>
+            </>
+          )}
         </div>
       )}
 
