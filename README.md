@@ -21,11 +21,6 @@ This dashboard solves that by ingesting a massive stream of 50,000 project recor
 6. **Pipeline Control**: Pause the live stream to inspect data while the underlying buffer continues to queue incoming anomalies.
 7. **Detailed Project Inspector Drawer**: Deep-dive into a project's metrics when paused, showing a calculated project duration in months, and prominent financial highlights.
 
-## Premium UX & Polish (Hackathon Ready)
-- **Header Scanline Animation**: A subtle CSS-only horizontal scanning animation across the header gives the application a live, enterprise monitoring atmosphere.
-- **Trackpad Scroll Locking**: Native precision touchpad gesture optimization. Once you start scrolling in a dominant direction (vertically or horizontally), the opposing axis is locked to prevent slippery diagonal drift.
-- **Minimalist Styling**: Ultra-thin custom scrollbars, right-rounded bar charts, unified cyan border scanner lines, and custom HSL colors.
-
 ## Setup & Execution
 
 1. Make sure Node.js is installed.
