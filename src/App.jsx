@@ -19,14 +19,9 @@ function AppContent() {
 
   const contentRef = useRef(null);
 
-  // Adaptive grid columns:
-  // Both visible  → grid gets ~76%, sidebar gets ~24% (fixed 240px)
-  // Only grid     → grid fills 100%
-  // Only sidebar  → sidebar fills 100%
-  const gridColumns = (() => {
-    if (showGrid && showSidebar) return 'minmax(0, 1fr) 240px';
-    return 'minmax(0, 1fr)';
-  })();
+  const layoutClass = (showGrid && showSidebar) 
+    ? 'layout-state-both' 
+    : (showSidebar ? 'layout-state-sidebar' : 'layout-state-grid');
 
   return (
     <div className="app-root">
@@ -45,15 +40,9 @@ function AppContent() {
       <KPIStrip />
 
       <main className="main-content">
-        <div ref={contentRef} className="content-layout" style={{ 
-          display: 'grid', 
-          gridTemplateColumns: gridColumns,
-          width: '100%',
-          height: '100%',
-          overflow: 'hidden'
-        }}>
+        <div ref={contentRef} className={`content-layout ${layoutClass}`}>
           {showGrid && (
-            <div className="main-panel" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0, borderRight: showSidebar ? '2px solid var(--border-bright)' : 'none' }}>
+            <div className="main-panel">
               <div className="toolbar-row">
                 <SearchBar />
                 <FilterPanel />
