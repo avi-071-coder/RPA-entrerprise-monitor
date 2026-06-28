@@ -1,0 +1,2 @@
+# Install the Node modules
+npm install
