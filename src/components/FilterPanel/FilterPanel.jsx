@@ -171,7 +171,7 @@ const FilterPanel = React.memo(function FilterPanel() {
         />
       ))}
 
-      {// active filter chips}
+      {/* active filter chips */}
       <div className="filter-chips">
         {Object.entries(activeFilters).map(([field, values]) =>
           values.map(val => (

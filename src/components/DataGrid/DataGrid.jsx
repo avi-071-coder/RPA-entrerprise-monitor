@@ -72,7 +72,7 @@ const DataGrid = React.memo(function DataGrid() {
   return (
     <div className="data-grid-wrapper" style={{ flex: '1 1 auto', minWidth: 0, overflow: 'hidden' }}>
 
-      {// header scrolls horizontally in sync — overflow hidden, scrollleft set by js}
+      {/* header scrolls horizontally in sync — overflow hidden, scrollleft set by js */}
       <div
         ref={headerWrapperRef}
         className="grid-header-wrapper"

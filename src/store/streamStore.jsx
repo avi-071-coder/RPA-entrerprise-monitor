@@ -15,7 +15,9 @@ function loadLayout() {
   try {
     const stored = localStorage.getItem('rpa_monitor_layout');
     if (stored) return JSON.parse(stored);
-  } catch (e) { // ignore }
+  } catch (e) {
+    // ignore
+  }
   return { gridWindow: true, analyticsChart: true, infraToggles: true };
 }
 
@@ -244,7 +246,9 @@ export function StreamProvider({ children }) {
   useEffect(() => {
     try {
       localStorage.setItem('rpa_monitor_layout', JSON.stringify(state.layout));
-    } catch (e) { // ignore }
+    } catch (e) {
+      // ignore
+    }
   }, [state.layout]);
 
   return (

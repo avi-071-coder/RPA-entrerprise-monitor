@@ -290,7 +290,7 @@ export default function AnalyticsPanel() {
     <div className="analytics-panel">
       <h3 className="analytics-title">View Analytics</h3>
 
-      {// analytics view toggle — always visible so user can click to check safely}
+      {/* analytics view toggle — always visible so user can click to check safely */}
       <button
         className={`analytics-toggle-btn ${showCharts ? 'analytics-toggle-active' : ''}`}
         onClick={toggleCharts}
@@ -299,7 +299,7 @@ export default function AnalyticsPanel() {
         {!isPaused ? 'Safe Check Analytics' : (showCharts ? 'Close Analytics' : 'Analytics View')}
       </button>
 
-      {// ─── chart.js overlay (paused + toggled on) ───}
+      {/* ─── chart.js overlay (paused + toggled on) ─── */}
       {showCharts && isPaused && chartData && (
         <div className="analytics-charts-overlay">
           <div className="analytics-chart-section">
@@ -337,7 +337,7 @@ export default function AnalyticsPanel() {
         </div>
       )}
 
-      {// ─── existing summary stats (always visible) ───}
+      {/* ─── existing summary stats (always visible) ─── */}
       <div className="analytics-stats">
         <div className="analytics-stat">
           <span className="stat-label">Avg ROI</span>
@@ -368,6 +368,4 @@ export default function AnalyticsPanel() {
       </div>
     </div>
   );
-});
-
-export default AnalyticsPanel;
+}

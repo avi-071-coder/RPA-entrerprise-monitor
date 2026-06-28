@@ -27,7 +27,9 @@ const LayoutManager = React.memo(function LayoutManager() {
           dispatch({ type: 'LAYOUT_SET', payload: { panelId, visible } });
         }
       }
-    } catch (e) { // ignore }
+    } catch (e) {
+      // ignore
+    }
   }, [dispatch]);
 
   const handleToggle = (panelId) => {
