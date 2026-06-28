@@ -1244,16 +1244,25 @@ body,
   display: none;
 }
 
+/* ─── DESKTOP PANEL VISIBILITY ─── */
+@media (min-width: 769px) {
+  .layout-state-grid .sidebar-panel {
+    display: none !important;
+  }
+  .layout-state-sidebar .main-panel {
+    display: none !important;
+  }
+}
+
 /* ─── NATIVE APP-LIKE MOBILE RESPONSIVENESS ─── */
 @media (max-width: 768px) {
   /* Change root layout to accommodate bottom nav */
   .app-root {
-    grid-template-rows: auto 1fr auto; /* Header, Content, Nav */
+    grid-template-rows: auto auto 1fr auto; /* Header, KPI, Content, Nav */
   }
 
   /* Hide desktop-specific UI elements */
-  .desktop-layout-manager,
-  .desktop-kpi-strip {
+  .desktop-layout-manager {
     display: none;
   }
 
@@ -1269,9 +1278,29 @@ body,
     font-size: 14px;
   }
 
+  /* KPI Strip Horizontal Scroll */
+  .kpi-strip {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px 16px;
+    gap: 12px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .kpi-card {
+    flex: 0 0 85%;
+    scroll-snap-align: center;
+  }
+
   /* Full Screen Panel Toggling based on Active Tab */
   .content-layout.layout-state-both {
     grid-template-columns: 1fr;
+  }
+
+  /* Force display of both on mobile for CSS toggling */
+  .sidebar-panel {
+    display: block !important;
   }
 
   /* If Tab is Grid, hide Sidebar */
@@ -1285,8 +1314,9 @@ body,
   }
 
   /* Remove desktop border from main panel */
-  .layout-state-both .main-panel {
-    border-right: none;
+  .layout-state-both .main-panel,
+  .main-panel {
+    border-right: none !important;
   }
   
   /* Search Bar */

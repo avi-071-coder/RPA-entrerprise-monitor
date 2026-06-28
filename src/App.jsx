@@ -42,34 +42,30 @@ function AppContent() {
         </div>
       </header>
 
-      <div className="desktop-kpi-strip">
+      <div className="kpi-wrapper">
         <KPIStrip />
       </div>
 
       <main className="main-content">
         <div ref={contentRef} className={`content-layout ${layoutClass}`}>
-          {showGrid && (
-            <div className="main-panel">
-              <div className="toolbar-row">
-                <SearchBar />
-                <FilterPanel />
-              </div>
-              <div className="grid-panel">
-                <DataGrid />
-              </div>
+          <div className="main-panel">
+            <div className="toolbar-row">
+              <SearchBar />
+              <FilterPanel />
             </div>
-          )}
+            <div className="grid-panel">
+              <DataGrid />
+            </div>
+          </div>
 
-          {showSidebar && (
-            <aside className="sidebar-panel" style={{ 
-              width: '100%',
-              maxWidth: '100%',
-              minWidth: 0,
-            }}>
-              <AnalyticsPanel />
-              <InfraToggles />
-            </aside>
-          )}
+          <aside className="sidebar-panel" style={{ 
+            width: '100%',
+            maxWidth: '100%',
+            minWidth: 0,
+          }}>
+            <AnalyticsPanel />
+            <InfraToggles />
+          </aside>
         </div>
       </main>
 
