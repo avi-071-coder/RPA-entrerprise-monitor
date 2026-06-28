@@ -23,21 +23,28 @@ function AppContent() {
     ? 'layout-state-both' 
     : (showSidebar ? 'layout-state-sidebar' : 'layout-state-grid');
 
+  // Mobile App-like Tab Navigation State
+  const [mobileTab, setMobileTab] = useState('grid'); // 'grid' | 'analytics'
+
   return (
-    <div className="app-root">
+    <div className={`app-root mobile-active-${mobileTab}`}>
       <header className="app-header">
         <h1 className="app-title">
           <span className="title-dot"></span>
-          RPA Enterprise Monitor 2026
+          RPA Enterprise Monitor
         </h1>
 
         <div className="header-controls">
           <PipelineControl />
-          <LayoutManager />
+          <div className="desktop-layout-manager">
+            <LayoutManager />
+          </div>
         </div>
       </header>
 
-      <KPIStrip />
+      <div className="desktop-kpi-strip">
+        <KPIStrip />
+      </div>
 
       <main className="main-content">
         <div ref={contentRef} className={`content-layout ${layoutClass}`}>
@@ -65,6 +72,24 @@ function AppContent() {
           )}
         </div>
       </main>
+
+      {/* ─── MOBILE BOTTOM NAVIGATION ─── */}
+      <nav className="mobile-bottom-nav">
+        <button 
+          className={`mobile-nav-btn ${mobileTab === 'grid' ? 'active' : ''}`}
+          onClick={() => setMobileTab('grid')}
+        >
+          <span className="icon">≡</span> 
+          <span>Data Grid</span>
+        </button>
+        <button 
+          className={`mobile-nav-btn ${mobileTab === 'analytics' ? 'active' : ''}`}
+          onClick={() => setMobileTab('analytics')}
+        >
+          <span className="icon">📊</span> 
+          <span>Analytics</span>
+        </button>
+      </nav>
     </div>
   );
 }

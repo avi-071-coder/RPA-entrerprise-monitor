@@ -1239,38 +1239,96 @@ body,
   border-right: 2px solid var(--border-bright);
 }
 
-/* --- MOBILE RESPONSIVENESS --- */
+/* ─── MOBILE BOTTOM NAVIGATION (Hidden by default) ─── */
+.mobile-bottom-nav {
+  display: none;
+}
+
+/* ─── NATIVE APP-LIKE MOBILE RESPONSIVENESS ─── */
 @media (max-width: 768px) {
-  /* Stack panels vertically on mobile */
+  /* Change root layout to accommodate bottom nav */
+  .app-root {
+    grid-template-rows: auto 1fr auto; /* Header, Content, Nav */
+  }
+
+  /* Hide desktop-specific UI elements */
+  .desktop-layout-manager,
+  .desktop-kpi-strip {
+    display: none;
+  }
+
+  /* Header adjustments */
+  .app-header {
+    padding: 12px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  
+  .app-title {
+    font-size: 14px;
+  }
+
+  /* Full Screen Panel Toggling based on Active Tab */
   .content-layout.layout-state-both {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
+  }
+
+  /* If Tab is Grid, hide Sidebar */
+  .mobile-active-grid .sidebar-panel {
+    display: none !important;
   }
   
+  /* If Tab is Analytics, hide Grid */
+  .mobile-active-analytics .main-panel {
+    display: none !important;
+  }
+
+  /* Remove desktop border from main panel */
   .layout-state-both .main-panel {
     border-right: none;
-    border-bottom: 2px solid var(--border-bright);
-  }
-
-  /* Make KPI strip scrollable or stack */
-  .kpi-strip {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    padding: 10px;
-  }
-
-  /* Toolbar */
-  .toolbar-row {
-    padding: 8px 10px;
   }
   
+  /* Search Bar */
   .search-bar {
     min-width: 100%;
   }
 
-  /* Header */
-  .app-header {
+  /* Bottom Navigation Bar */
+  .mobile-bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: var(--bg-elevated);
+    border-top: 1px solid var(--border-bright);
+    padding-bottom: env(safe-area-inset-bottom, 12px); /* iOS home indicator support */
+    z-index: 100;
+  }
+
+  .mobile-nav-btn {
+    flex: 1;
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 12px 0;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 600;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .mobile-nav-btn.active {
+    color: var(--accent-cyan);
+  }
+
+  .mobile-nav-btn .icon {
+    font-size: 20px;
+    margin-bottom: 2px;
   }
 }
